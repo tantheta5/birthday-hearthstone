@@ -31,8 +31,8 @@ const CelebrationScene = ({ onReset }: CelebrationSceneProps) => {
     const end = Date.now() + duration;
 
     const colors = ['#89CDA9', '#F4D35E', '#ffffff', '#A8E6CF', '#FFE156'];
-
-    (function frame() {
+    let rafId: number | null = null;
+    const frame = () => {
       confetti({
         particleCount: 5,
         angle: 60,
@@ -49,9 +49,12 @@ const CelebrationScene = ({ onReset }: CelebrationSceneProps) => {
       });
 
       if (Date.now() < end) {
-        requestAnimationFrame(frame);
+        rafId = requestAnimationFrame(frame);
       }
-    }());
+    };
+
+    // start the frame loop
+    rafId = requestAnimationFrame(frame);
 
     // Show floating hearts
     const hearts = () => {
@@ -64,7 +67,9 @@ const CelebrationScene = ({ onReset }: CelebrationSceneProps) => {
       });
     };
 
-    const heartInterval = setInterval(hearts, 1000);
+  const heartInterval = setInterval(hearts, 1000);
+  // stop the heart interval after the same duration as the main celebration
+  const heartTimeout = setTimeout(() => clearInterval(heartInterval), duration);
     
     // Show message after celebration starts
     setTimeout(() => {
@@ -72,7 +77,9 @@ const CelebrationScene = ({ onReset }: CelebrationSceneProps) => {
     }, 1500);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       clearInterval(heartInterval);
+      clearTimeout(heartTimeout);
     };
   }, []);
 
