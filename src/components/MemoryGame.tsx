@@ -6,9 +6,9 @@ import confetti from 'canvas-confetti';
 import gonImage from '@/assets/gon.png';
 import killuaImage from '@/assets/killua.png';
 import kurapikaImage from '@/assets/kurapika.png';
-import leorioImage from '@/assets/leorio.png';
 import hisokaImage from '@/assets/hisoka.png';
 import allukaImage from '@/assets/alluka.png';
+import meruemImage from '@/assets/meruem.png';
 
 interface Card {
   id: number;
@@ -21,9 +21,9 @@ const characters = [
   { image: gonImage, alt: 'Gon Freecss' },
   { image: killuaImage, alt: 'Killua Zoldyck' },
   { image: kurapikaImage, alt: 'Kurapika' },
-  { image: leorioImage, alt: 'Leorio' },
   { image: hisokaImage, alt: 'Hisoka' },
   { image: allukaImage, alt: 'Alluka' },
+  { image: meruemImage, alt: 'Meruem' },
 ];
 
 interface MemoryGameProps {
