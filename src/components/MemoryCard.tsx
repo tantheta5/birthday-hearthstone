@@ -52,7 +52,7 @@ const MemoryCard = ({ id, image, alt, isFlipped, isMatched, onClick }: MemoryCar
           "absolute inset-0 w-full h-full rounded-2xl backface-hidden rotate-y-180",
           "bg-card border-2 border-accent/40 p-2",
           "flex items-center justify-center shadow-xl",
-          !isFlipped && "rotate-y-0"
+          isFlipped && "rotate-y-0"
         )}
       >
         <img
