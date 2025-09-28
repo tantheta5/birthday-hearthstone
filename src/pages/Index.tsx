@@ -1,13 +1,41 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import LandingPage from '@/components/LandingPage';
+import MemoryGame from '@/components/MemoryGame';
+import CelebrationScene from '@/components/CelebrationScene';
+
+type GameState = 'landing' | 'playing' | 'celebration';
 
 const Index = () => {
+  const [gameState, setGameState] = useState<GameState>('landing');
+
+  const startQuest = () => {
+    setGameState('playing');
+  };
+
+  const completeGame = () => {
+    setGameState('celebration');
+  };
+
+  const resetGame = () => {
+    setGameState('landing');
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="min-h-screen">
+      {gameState === 'landing' && (
+        <LandingPage onStartQuest={startQuest} />
+      )}
+      
+      {gameState === 'playing' && (
+        <div className="quest-background min-h-screen flex items-center justify-center">
+          <MemoryGame onComplete={completeGame} />
+        </div>
+      )}
+      
+      {gameState === 'celebration' && (
+        <CelebrationScene onReset={resetGame} />
+      )}
+    </main>
   );
 };
 

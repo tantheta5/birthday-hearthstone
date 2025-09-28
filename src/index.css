@@ -2,41 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Birthday Quest Memory Vault Design System
+   Soft green theme with white highlights and gold accents
+   All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Background colors - soft mint green theme */
+    --background: 145 25% 88%;
+    --foreground: 145 15% 25%;
 
+    /* Card colors - clean white with soft shadows */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 145 15% 25%;
 
+    /* Popover colors */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 145 15% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - soft mint green */
+    --primary: 145 35% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - pure white for highlights */
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 145 15% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones */
+    --muted: 145 25% 95%;
+    --muted-foreground: 145 10% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - light gold */
+    --accent: 48 85% 65%;
+    --accent-foreground: 145 15% 25%;
 
+    /* Destructive (keep minimal) */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders and inputs */
+    --border: 145 20% 85%;
+    --input: 145 20% 90%;
+    --ring: 145 35% 60%;
 
-    --radius: 0.5rem;
+    /* Enhanced radius for soft, rounded feel */
+    --radius: 1rem;
+
+    /* Custom design tokens for birthday quest */
+    --quest-gradient: linear-gradient(135deg, hsl(145 35% 70%), hsl(145 25% 85%));
+    --celebration-gradient: linear-gradient(135deg, hsl(145 45% 65%), hsl(48 85% 75%));
+    --card-shadow: 0 10px 30px -5px hsl(145 35% 60% / 0.2);
+    --card-hover-shadow: 0 20px 40px -5px hsl(145 35% 60% / 0.3);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +120,62 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+@layer components {
+  /* Quest-specific animations and utilities */
+  .quest-background {
+    @apply bg-gradient-to-br from-primary/20 via-primary/10 to-background;
+  }
+  
+  .celebration-background {
+    background: var(--celebration-gradient);
+  }
+  
+  .memory-card {
+    @apply bg-card border-2 border-border rounded-2xl cursor-pointer;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-smooth);
+  }
+  
+  .memory-card:hover {
+    box-shadow: var(--card-hover-shadow);
+    @apply scale-105;
+  }
+  
+  .memory-card.flipped {
+    transform: rotateY(180deg);
+  }
+  
+  .quest-button {
+    @apply bg-secondary text-secondary-foreground border-2 border-primary/20 rounded-2xl px-8 py-4 font-semibold;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-bounce);
+  }
+  
+  .quest-button:hover {
+    @apply bg-primary text-primary-foreground scale-105;
+    box-shadow: var(--card-hover-shadow);
+  }
+  
+  .message-card {
+    @apply bg-card text-card-foreground rounded-3xl p-8;
+    box-shadow: var(--card-hover-shadow);
+    border: 2px solid hsl(var(--accent) / 0.3);
+  }
+  
+  /* 3D card flip utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
   }
 }
