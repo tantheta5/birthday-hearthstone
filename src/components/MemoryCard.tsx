@@ -4,14 +4,16 @@ import { cn } from '@/lib/utils';
 interface MemoryCardProps {
   id: number;
   image: string;
+  fallbackImage?: string;
   alt: string;
   isFlipped: boolean;
   isMatched: boolean;
   onClick: () => void;
 }
 
-const MemoryCard = ({ id, image, alt, isFlipped, isMatched, onClick }: MemoryCardProps) => {
+const MemoryCard = ({ id, image, fallbackImage, alt, isFlipped, isMatched, onClick }: MemoryCardProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [src, setSrc] = useState(image);
 
   const handleClick = () => {
     if (!isFlipped && !isMatched && !isAnimating) {
@@ -56,10 +58,14 @@ const MemoryCard = ({ id, image, alt, isFlipped, isMatched, onClick }: MemoryCar
         )}
       >
         <img
-          src={image}
+          src={src}
           alt={alt}
-          className="w-full h-full object-cover rounded-lg"
+          className="w-full h-full object-contain rounded-lg"
           draggable={false}
+          onError={() => {
+            // If the public image fails to load, fall back to a bundled import (if provided)
+            if (fallbackImage && src !== fallbackImage) setSrc(fallbackImage);
+          }}
         />
       </div>
     </div>

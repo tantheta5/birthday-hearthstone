@@ -12,18 +12,28 @@ import meruemImage from '@/assets/meruem.png';
 
 interface Card {
   id: number;
-  image: string;
+  image: string; // primary URL (can be public path)
+  fallback?: string; // bundler-imported fallback
   alt: string;
   pairId: number;
 }
 
+/*
+  We prefer images from the `public/images/` folder so you can drop
+  your provided files directly into `public/images/` (no build step).
+  If a public image is missing or fails to load the `MemoryCard` will
+  automatically fall back to the bundled images imported above.
+*/
+// Use bundled assets as the primary images so the game always has visible
+// card faces even if the public images are not present. If you want to
+// override with your own files in `public/images/`, change the paths here.
 const characters = [
-  { image: gonImage, alt: 'Gon Freecss' },
-  { image: killuaImage, alt: 'Killua Zoldyck' },
-  { image: kurapikaImage, alt: 'Kurapika' },
-  { image: hisokaImage, alt: 'Hisoka' },
-  { image: allukaImage, alt: 'Alluka' },
-  { image: meruemImage, alt: 'Meruem' },
+  { image: gonImage, fallback: gonImage, alt: 'Gon Freecss' },
+  { image: killuaImage, fallback: killuaImage, alt: 'Killua Zoldyck' },
+  { image: kurapikaImage, fallback: kurapikaImage, alt: 'Kurapika' },
+  { image: hisokaImage, fallback: hisokaImage, alt: 'Hisoka' },
+  { image: allukaImage, fallback: allukaImage, alt: 'Alluka' },
+  { image: meruemImage, fallback: meruemImage, alt: 'Meruem' },
 ];
 
 interface MemoryGameProps {
@@ -46,12 +56,14 @@ const MemoryGame = ({ onComplete }: MemoryGameProps) => {
         {
           id: index * 2,
           image: char.image,
+          fallback: char.fallback,
           alt: char.alt,
           pairId: index,
         },
         {
           id: index * 2 + 1,
           image: char.image,
+          fallback: char.fallback,
           alt: char.alt,
           pairId: index,
         }
@@ -156,6 +168,7 @@ const MemoryGame = ({ onComplete }: MemoryGameProps) => {
             key={card.id}
             id={card.id}
             image={card.image}
+            fallbackImage={card.fallback}
             alt={card.alt}
             isFlipped={isCardFlipped(card.id)}
             isMatched={isCardMatched(card.id)}
